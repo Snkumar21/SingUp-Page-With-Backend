@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SignUp Page</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="main">
+    <div class="left">
+      <h1>Create Your Account</h1>
+      <h2>Share your artwork and get Projects!</h2>
+    </div>
+    <div class="right">
+      <h3>Sign Up</h3>
+      <form id="signup">
+        <input type="text" name="fname" id="fname" placeholder="First Name" />
+        <input type="text" name="lname" id="lname" placeholder="Last Name" />
+        <input type="email" name="email" id="email" placeholder="Email" />
+        <input type="password" name="password" id="password" placeholder="Create Your Password" /><br />
+        <input type="radio" name="" id="" />
+        <label>Accept Our Terms & Conditions.</label><br />
+        <input type="submit" value="Join Us Now !" /><br /><br />
+        <label for="" class="or">OR</label>
+        <br />
+        <input type="button" value="Sign Up with Google" class="google" /><br />
+        <input type="button" value="Sign Up with Apple" class="apple" />
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("signup");
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        const fname = document.getElementById("fname").value;
+        const lname = document.getElementById("lname").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        fetch("/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ fname, lname, email, password }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              alert("Sign Up Successfully");
+              window.location.href = "/login";
+            } else {
+              alert("Error: " + data.message);
+            }
+          })
+          .catch((error) => console.error("Error:", error));
+      });
+    });
+  </script>
+</body>
+</html>
